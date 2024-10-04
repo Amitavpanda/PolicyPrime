@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id @unique
+  phoneNumber String 
+}
+
+
+
+model Customer {
+  id String @id @unique
+  name String 
+  phoneNumber String
+  email String?
+  address String
+  policies Policy[] 
+}
+
+
+model Policy {
+  id String @id @unique
+  customerId String
+  insuranceType String
+  policyNumber String
+  startDate DateTime
+  endDate DateTime
+  premiumAmount Float
+  expiryDateOfLastPolicy DateTime
+  claimOnExistingPolicy String
+  customer Customer @relation(fields: [customerId], references: [id])
+  vehicleInsurance VehicleInsurance?
+  propertyInsurance PropertyInsurance?
+  healthInsurance HealthInsurance?
+  termLifeInsurance TermLifeInsurance?
+
+}
+
+
+model VehicleInsurance {
+  id String @id @unique
+  policyId String @unique
+  policy Policy? @relation(fields: [policyId], references: [id])
+  vehicleNumber String?
+  vehicleType String?
+  wheelerType String? 
+  vehicleBrand String?
+  vehicleModel String?
+  vehicleRegistrationYear String?
+  vehicleFuelType String?
+  vehicleVariant String?
+  vehicleLoadCapacity String?
+  rcCopy String
+
+}
+
+
+model PropertyInsurance {
+  id String @id @unique
+  propertyType String
+  propertyLocation String
+  pinCode String
+  carpetArea String?
+  propertyAge String
+  policyId String @unique
+  policy Policy? @relation(fields: [policyId], references: [id])
+  valueOfHouse String
+  loanAgainstProperty String
+  financerName String?
+  accountNumber String?
+}
+
+model HealthInsurance {
+  id String @id @unique
+  dob DateTime 
+  illnessList String[]
+  policyId String @unique
+  policy Policy? @relation(fields: [policyId], references: [id])
+}
+
+model TermLifeInsurance {
+  id String @id @unique
+  annualIncome String
+  occupationType String
+  educationalQualification String
+  smokeOrTobacco String
+  policyId String @unique
+  policy Policy? @relation(fields: [policyId], references: [id])
+
+}
+
