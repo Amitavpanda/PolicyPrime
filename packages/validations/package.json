@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "exports" : {
-    
+    "./addVehicleInsurance" : "./vehicleInsurance.schema.ts",
+    "./addPropertyInsurance" : "./propertyInsurance.schema.ts",
+    "./addhealthInsuranceSchema" : "./healthInsurance.schema.ts",
+    "./addLifeInsuranceSchema" : "./lifeInsurance.schema.ts"
   },
     "type": "module"
 }

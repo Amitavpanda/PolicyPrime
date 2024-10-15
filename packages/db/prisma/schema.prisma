@@ -22,83 +22,89 @@ model User {
 
 
 model Customer {
-  id String @id @unique
+  id String @id @unique @default(uuid())
   name String 
   phoneNumber String
-  email String?
-  address String
+  address String?
   policies Policy[] 
 }
 
 
 model Policy {
-  id String @id @unique
+  id String @id @unique @default(uuid())
   customerId String
   insuranceType String
-  policyNumber String
-  startDate DateTime
-  endDate DateTime
-  premiumAmount Float
-  expiryDateOfLastPolicy DateTime
-  claimOnExistingPolicy String
+  policyNumber String?
+  startDate DateTime?
+  endDate DateTime?
+  premiumAmount Float?
+  claimOnExistingPolicy String?
   customer Customer @relation(fields: [customerId], references: [id])
   vehicleInsurance VehicleInsurance?
   propertyInsurance PropertyInsurance?
   healthInsurance HealthInsurance?
   termLifeInsurance TermLifeInsurance?
+  previousPolicyCopy String?
 
 }
 
 
+
 model VehicleInsurance {
-  id String @id @unique
+  id String @id @unique @default(uuid())
   policyId String @unique
   policy Policy? @relation(fields: [policyId], references: [id])
   vehicleNumber String?
-  vehicleType String?
-  wheelerType String? 
-  vehicleBrand String?
-  vehicleModel String?
-  vehicleRegistrationYear String?
-  vehicleFuelType String?
-  vehicleVariant String?
-  vehicleLoadCapacity String?
+  vehicleType String
+  wheelerType String
   rcCopy String
+  nomineeRelation String?
+  nomineeName String?
+  nomineeAge String?
 
 }
 
 
 model PropertyInsurance {
-  id String @id @unique
+  id String @id @unique @default(uuid())
   propertyType String
   propertyLocation String
-  pinCode String
-  carpetArea String?
-  propertyAge String
+  pinCode String?
+  ownerOrTenant String?
   policyId String @unique
   policy Policy? @relation(fields: [policyId], references: [id])
   valueOfHouse String
-  loanAgainstProperty String
+  valueOfStock String?
+  valueOfContents String?
+  loanAgainstProperty String?
   financerName String?
   accountNumber String?
 }
 
 model HealthInsurance {
-  id String @id @unique
+  id String @id @unique @default(uuid())
   dob DateTime 
-  illnessList String[]
+  illnessList String? 
+  previousIllnessList String?
+  medication String? 
+  height String?
+  weight String?
+  nomineeRelation String?
+  nomineeName String?
+  nomineeAge String?
   policyId String @unique
   policy Policy? @relation(fields: [policyId], references: [id])
 }
 
 model TermLifeInsurance {
-  id String @id @unique
-  annualIncome String
-  occupationType String
-  educationalQualification String
-  smokeOrTobacco String
+  id String @id @unique @default(uuid())
+  gender String
+  adharCard String?
+  panCard  String?
+  presentAddress String?
+  bankPassbookPic String?
+  passportPic String?
   policyId String @unique
-  policy Policy? @relation(fields: [policyId], references: [id])
-
+  policy Policy? @relation(fields: [policyId], references: [id]) 
 }
 
