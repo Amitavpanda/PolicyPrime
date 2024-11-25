@@ -5,10 +5,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { info } from "@repo/logs/logs";
 import routes from "./routes.js";
+import bodyParser from "body-parser";
 
 const app = express();
 
 app.use(express.json());
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(cors());
 
