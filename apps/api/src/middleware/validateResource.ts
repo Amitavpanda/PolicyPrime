@@ -6,7 +6,7 @@ import path from "path";
 
 const validate = (schema : AnyZodObject) => (req : Request, res : Response, next : NextFunction) => {
     try{
-        info("req body ", req.body);
+        console.log("req body inside validate", req.body);
         schema.parse({
             body: req.body,
             params: req.params,
