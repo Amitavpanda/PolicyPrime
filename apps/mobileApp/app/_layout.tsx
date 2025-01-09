@@ -6,6 +6,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useFonts } from "expo-font";
+import { UserProvider } from '@/context/userContext';
 
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -35,10 +36,12 @@ export default function RootLayout() {
 
 
   return (
-
+    <UserProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
+    </UserProvider>
+
   );
 }
 

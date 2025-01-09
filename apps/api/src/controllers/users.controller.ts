@@ -1,6 +1,6 @@
 import { info } from "@repo/logs/logs";
 import { Request, Response, response } from "express";
-import { loginService, otpVerificationService, registerService } from "../service/users.service.js";
+import { loginService, otpVerificationService, registerService, resendOtpService } from "../service/users.service.js";
 
 
 
@@ -8,6 +8,15 @@ export async function registerHandler(req:Request, res : Response) {
     console.log("req body inside registerHandler", req);
     
     const response = await registerService(req);
+
+    return res.send(response);
+
+}
+
+export async function resendOtpHandler(req:Request, res : Response) {
+    console.log("req body inside resendOtpHandler", req);
+    
+    const response = await resendOtpService(req);
 
     return res.send(response);
 
