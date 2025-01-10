@@ -5,24 +5,28 @@ import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Alert, Image, SafeAreaView, ScrollView, Text, View } from "react-native"
 import axios from "axios"; 
+import { useUser } from "@/context/userContext";
 
 const SignUp = () => {
     const [form, setForm] = useState({
         name : "",
         phoneNumber : ""
     })
+    const { setUserData } = useUser(); // Use context to set data
+
 
     const handleRegister = async () => {
         if (form.name.trim() && form.phoneNumber.trim()) {
             try{
-                const response = await axios.post('http://192.168.1.7:8081/register', {
-                    body : {
+                const response = await axios.post('http://10.0.2.2:4000/register', {
                         name : form.name,
                         phoneNumber : form.phoneNumber
-                    }
+
                 });
                 
                 const {success , ifUserExists, hash, phoneNumber } = response.data;
+                const data = response.data;
+
 
                 if(ifUserExists) {
                     Alert.alert("User Already Exists" , "Please log in to continue", [
@@ -43,6 +47,13 @@ const SignUp = () => {
                             }
                         ]
                     );
+
+                    setUserData({
+                        phoneNumber: data.phoneNumber,
+                        hash: data.hash,
+                        ifUserExists: false,
+                    });
+
                 }
                 else {
                     Alert.alert("Error", "Something went wrong");
@@ -82,3 +93,4 @@ const SignUp = () => {
 }
 
 export default SignUp;
+

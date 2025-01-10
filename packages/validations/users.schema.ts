@@ -10,6 +10,12 @@ const registerPayload = {
   }),
 };
 
+const resendOtpPayload = {
+  body: z.object({
+    phoneNumber : z.string().length(10, 'Phone Number should be 10 digits'),
+  }),
+};
+
 const loginPayload = {
   body: z.object({
     phoneNumber : z.string().length(10, 'Phone Number should be 10 digits'),
@@ -42,9 +48,12 @@ const params = {
 export const otpVerificationSchema = z.object({
   ...otpVerificationPayload,
 });
-  
+export const resendOtpSchema = z.object({
+  ...resendOtpPayload,
+});
 
 
+export type ResendOtpSchema = z.infer<typeof resendOtpSchema>;  
 export type RegisterUserSchema = z.infer<typeof registerUserSchema>;
 export type LoginUserSchema = z.infer<typeof loginUserSchema>;
 export type OtpVerificationSchema = z.infer<typeof otpVerificationSchema>;

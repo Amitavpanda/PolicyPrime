@@ -3,12 +3,75 @@ import { Prisma, PrismaClient, User } from "@repo/db/client";
 import bcrypt from "bcrypt";
 import { error } from "@repo/logs/logs";
 import twilio from "twilio"
-import { OtpVerificationSchema, RegisterUserSchema, LoginUserSchema } from "@repo/validations/userSchema";
+import { OtpVerificationSchema, RegisterUserSchema, LoginUserSchema, ResendOtpSchema } from "@repo/validations/userSchema";
 const prisma = new PrismaClient();
 import crypto from "crypto"
 import jwt from "jsonwebtoken";
 // import { generateAccessToken, generateRefreshToken } from "../utils/index.js";
 
+
+
+
+export async function resendOtpService(input: ResendOtpSchema) {
+    console.log("inside resendOtpService");
+    const { phoneNumber } = input.body;
+    console.log("after resendOtpService phoneNUmber")
+    try {
+
+            const otp = Math.floor(100000 + Math.random() * 900000).toString();
+            const accountSid = process.env.TWILIO_ACCOUNT_SID;
+            console.log("account SID", accountSid);
+            const authToken = process.env.TWILIO_AUTH_TOKEN;
+            const serviceId = process.env.TWILIO_SERVICE_ID;
+            let smsKey = process.env.SMS_SECRET_KEY;
+
+            const client = twilio(accountSid, authToken);
+
+
+            async function createVerification() {
+
+                if (!serviceId) {
+                    throw new Error("TWILIO_SERVICE_ID is not set");
+                }
+
+                const ttl = 5 * 60 * 1000;
+                const expiresIn = Date.now() + ttl;
+                try {
+
+                    const verification = await client.verify.v2.services(serviceId)
+                        .verifications
+                        .create({ to: `+91${phoneNumber}`, channel: 'sms' });
+
+                    const data = `${phoneNumber}.${expiresIn}`
+                    let hash = '';
+                    if (smsKey !== undefined) {
+                        hash = crypto.createHmac('sha256', smsKey).update(data).digest('hex')
+
+                    }
+                    const fullHash = `${hash}.${expiresIn}`
+
+                    return { success: true, verificationStatus: verification, hash: fullHash, phoneNumber: phoneNumber }
+                }
+                catch (err) {
+                    return { success: false, error: err }
+                }
+
+            }
+
+            const result = await createVerification();
+            return result;
+
+        
+
+    }
+
+    catch (err: any) {
+        error("Error in resending the OTP", err);
+
+        return { success: false, error: "Error in resending the OTP" }
+    }
+
+}
 
 
 export async function registerService(input: RegisterUserSchema) {
@@ -125,7 +188,7 @@ export async function loginService(input: LoginUserSchema) {
                 }
                 const fullHash = `${hash}.${expiresIn}`
 
-                return { success: true, verificationStatus: verification, hash: fullHash, phoneNumber: phoneNumber }
+                return { success: true, verificationStatus: verification, hash: fullHash, phoneNumber: phoneNumber, ifUserExists : true }
             }
             catch (err) {
                 return { success: false, error: err }
@@ -165,7 +228,7 @@ export async function otpVerificationService(input: OtpVerificationSchema) {
 
     if (expire) {
         if (now > parseInt(expire)) {
-            return { success: false, message: "OTP is expired, Please try sending the OTP again" };
+            return { success: false, message: "OTP is expired, Please try sending the OTP again", ifIsExpire : true };
         }
 
     }
