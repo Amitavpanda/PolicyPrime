@@ -1,3 +1,5 @@
+const { PureComponent } = require('react');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
@@ -15,72 +17,81 @@ module.exports = {
       },
       colors: {
         primary: {
-          100: "#F5F8FF",
-          200: "#EBF4FF",
-          300: "#C3D9FF",
-          400: "#9BBFFF",
-          500: "#0286FF",
-          600: "#6A85E6",
-          700: "#475A99",
-          800: "#364573",
-          900: "#242B4D",
+          500: '#624CF5',
+          50: ' #F6F8FD',
+          DEFAULT: '#624CF5',
+          foreground: 'hsl(var(--primary-foreground))',
         },
+        coral: {
+          500: '#15BF59',
+        },
+
+        grey: {
+          600: '#545454', // Subdued - color name in figma
+          500: '#757575',
+          400: '#F4F2F2', // Disabled - color name in figma
+          50: '#E7E7E3', // White Grey - color name in figma
+        },
+        green: {
+          50: '#30AF5B',
+          90: '#292C27',
+        },
+        purple : {
+          100 : "#6300cc",
+        },
+        gray: {
+          10: '#EEEEEE',
+          20: '#A2A2A2',
+          30: '#7B7B7B',
+          50: '#585858',
+          60 : '#1E1E1E',
+          90: '#141414',
+        },
+        orange: {
+          50: '#FF814C',
+        },
+        blue: {
+          70: '#021639',
+          90 : '#003F62'
+        },
+        yellow: {
+          50: '#FEC601',
+        },
+        brown : {
+          10: '#fef3c7',
+          50 : '#A2783A',
+          30 : 'rgba(0, 0, 0, 0.25)',
+          80 : '#713f12',
+        },
+        black : {
+          100 : '#000',
+          90 : "#262521"
+
+        },
+        slate : {
+          200 : '#e2e8f0',
+        },
+
+        red : {
+          500 : '#ef4444',
+        },
+        white: '#FFFFFF',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        foreground: 'hsl(var(--foreground))',
         secondary: {
-          100: "#6300cc",
-          200: "#F1F1F1",
-          300: "#D9D9D9",
-          400: "#C2C2C2",
-          500: "#AAAAAA",
-          600: "#999999",
-          700: "#666666",
-          800: "#4D4D4D",
-          900: "#333333",
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
-        success: {
-          100: "#6300cc",
-          200: "#C6F6D5",
-          300: "#9AE6B4",
-          400: "#68D391",
-          500: "#38A169",
-          600: "#2F855A",
-          700: "#276749",
-          800: "#22543D",
-          900: "#1C4532",
-        },
-        danger: {
-          100: "#FFF5F5",
-          200: "#FED7D7",
-          300: "#FEB2B2",
-          400: "#FC8181",
-          500: "#F56565",
-          600: "#E53E3E",
-          700: "#C53030",
-          800: "#9B2C2C",
-          900: "#742A2A",
-        },
-        warning: {
-          100: "#FFFBEB",
-          200: "#FEF3C7",
-          300: "#FDE68A",
-          400: "#FACC15",
-          500: "#EAB308",
-          600: "#CA8A04",
-          700: "#A16207",
-          800: "#854D0E",
-          900: "#713F12",
-        },
-        general: {
-          100: "#CED1DD",
-          200: "#858585",
-          300: "#EEEEEE",
-          400: "#0CC25F",
-          500: "#F6F8FA",
-          600: "#E6F3FF",
-          700: "#EBEBEB",
-          800: "#ADADAD",
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
         },
       },
     },
   },
   plugins: [],
 };
+
+
