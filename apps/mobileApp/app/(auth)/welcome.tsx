@@ -16,7 +16,7 @@ const Onboarding = () => {
         <SafeAreaView className="flex h-full items-center justify-between bg-white">
 
             <TouchableOpacity onPress={() => {
-                router.replace("/(auth)/sign-up");
+                router.replace("/(root)/(tabs)/home");
             }}
                 className="w-full flex justify-end items-end p-5"
             >
@@ -30,7 +30,7 @@ const Onboarding = () => {
                     <View className="w-[32px] h-[4px] mx-1 bg-[#E2E8F0] rounded-full" />
                 }
                 activeDot={
-                    <View className="w-[32px] h-[4px] mx-1 bg-[#6300cc] rounded-full" />
+                    <View className="w-[32px] h-[4px] mx-1 bg-purple-100 rounded-full" />
                 }
                 onIndexChanged={(index) => setActiveIndex(index)}
             >
